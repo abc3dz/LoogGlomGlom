@@ -29,7 +29,12 @@
 			var parameters = 
 			{
 				c: "select one",
-				v: false
+				v: false,
+				'Audio1': 0.3,
+				'Audio2': 0.0,
+				'Audio3': 0.0,
+				'Audio4': 0.0,
+				'Audio5': 0.0
 			};
 			let gltfAnim, gltfCha;
 
@@ -102,8 +107,64 @@
 						
 					});
 					
-			
-
+				//sound
+				var listener = new THREE.AudioListener();
+				var sound = new THREE.Audio( listener );
+				var audioLoader = new THREE.AudioLoader();
+				audioLoader.load( './sounds/BeepBox-Song.mp3', function( buffer ) {
+						sound.setBuffer( buffer );
+						sound.setLoop( true );
+						sound.setVolume( 0.3 );
+						sound.play();
+				});
+				var sound2 = new THREE.Audio( listener );
+				audioLoader.load( './sounds/BeepBox-Song2.mp3', function( buffer ) {
+					sound2.setBuffer( buffer );
+					sound2.setLoop( true );
+					sound2.setVolume( 0.0 );
+					sound2.play();
+				});
+				var sound3 = new THREE.Audio( listener );
+				audioLoader.load( './sounds/LGG_monster.mp3', function( buffer ) {
+					sound3.setBuffer( buffer );
+					sound3.setLoop( true );
+					sound3.setVolume( 0.0 );
+					sound3.play();
+				});
+				var sound4 = new THREE.Audio( listener );
+				audioLoader.load( './sounds/LGG_Rhythm.mp3', function( buffer ) {
+					sound4.setBuffer( buffer );
+					sound4.setLoop( true );
+					sound4.setVolume( 0.0 );
+					sound4.play();
+				});
+				var sound5 = new THREE.Audio( listener );
+				audioLoader.load( './sounds/PowerUp.mp3', function( buffer ) {
+					sound5.setBuffer( buffer );
+					sound5.setLoop( true );
+					sound5.setVolume( 0.0 );
+					sound5.play();
+				});
+				
+				var volumeFolder = gui.addFolder( 'Sound volume' );
+				volumeFolder.add( parameters, 'Audio1' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+									sound.setVolume( parameters.Audio1 );
+						} );
+				volumeFolder.add( parameters, 'Audio2' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+									sound2.setVolume( parameters.Audio2 );
+								} );
+				volumeFolder.add( parameters, 'Audio3' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+								sound3.setVolume( parameters.Audio3 );
+						} );
+				volumeFolder.add( parameters, 'Audio4' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+								sound4.setVolume( parameters.Audio4 );
+						} );
+				volumeFolder.add( parameters, 'Audio5' ).min( 0.0 ).max( 1.0 ).step( 0.01 ).onChange( function () {
+								sound5.setVolume( parameters.Audio5 );
+						} );		
+				
+				
+				//render
 				renderer = new THREE.WebGLRenderer( { antialias: true } );
 				renderer.setPixelRatio( window.devicePixelRatio );
 				renderer.setSize( window.innerWidth, window.innerHeight );
