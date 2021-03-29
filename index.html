@@ -14,10 +14,10 @@
 		</div>
 
 		<script type="module">
-			import * as THREE from 'three'; 
-			import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-			import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
-			import { GUI } from 'dat.gui';
+			import * as THREE from './js_lib/three.module.js'; 
+			import { OrbitControls } from './js_lib/OrbitControls.js'; 			
+			import { GLTFLoader } from './js_lib/GLTFLoader.js';
+			import { GUI } from './js_lib/dat.gui.module.js';
 
 			let container, clock, gui, mixer, actions, activeAction, previousAction;
 			let camera, scene, renderer, model, face;
