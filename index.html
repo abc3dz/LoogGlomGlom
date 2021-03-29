@@ -34,9 +34,11 @@
 				'Audio2': 0.0,
 				'Audio3': 0.0,
 				'Audio4': 0.0,
-				'Audio5': 0.0
+				'Audio5': 0.0,
+				reload: function(){location.reload()}
 			};
 			let gltfAnim, gltfCha;
+			
 
 			init();
 			animate();
@@ -78,13 +80,11 @@
 				scene.add( grid );
 
 				// model
-				let modelName = [ "select one", "hr_Zeroface.glb","hr_Argo.glb", "hr_Yinglek.glb", "hr_Oni.glb", "mt_Dada.glb","mt_Jook.glb","mt_Kooku.glb","mt_Manis.glb","Reload" ];
+				let modelName = [ "select one", "hr_Zeroface.glb","hr_Argo.glb", "hr_Yinglek.glb", "hr_Oni.glb", "mt_Dada.glb","mt_Jook.glb","mt_Kooku.glb","mt_Manis.glb" ];
 				gltfCha = gui.add( parameters, 'c' , modelName).name('Model List').listen();
 				gltfCha.onChange(function(value){   
 						console.log(scene.children.length)
-						// if(value=="Delete"){scene.remove(scene.children[scene.children.length-1])}
-						if(value=="Reload"){location.reload()}
-						else{
+						// if(value=="Reload"){scene.remove(scene.children[scene.children.length-1]);}
 						const loader = new GLTFLoader();
 						
 						loader.load( './models/'+value, function ( gltf ) {
@@ -103,8 +103,6 @@
 							}, undefined, function ( e ) {
 							console.error( e );
 						} );
-						}
-						
 					});
 					
 				//sound
@@ -181,6 +179,7 @@
 
 			function createGUI( model, animations, morphMeshes ) {
 				const animFolder = gui.addFolder('Actions');
+				const expressionFolder = gui.addFolder( 'Expressions' );
 
 				mixer = new THREE.AnimationMixer( model );
 				
@@ -207,14 +206,16 @@
 				
 				//expressions	
 				const expressions = Object.keys( morphMeshes[0].morphTargetDictionary );
-				const expressionFolder = gui.addFolder( 'Expressions' );
+				
 
 				for ( let i = 0; i < expressions.length; i ++ ) {
 
 					expressionFolder.add( morphMeshes[0].morphTargetInfluences, i, -1, 1, 0.01 ).name( expressions[ i ] );
 
 				}	
-				expressionFolder.open();			
+				expressionFolder.open();	
+				//reload
+				gui.add( parameters, 'reload').name('Reload');		
 			}
 
 			function onWindowResize() {
