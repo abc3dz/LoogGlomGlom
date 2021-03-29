@@ -9,24 +9,26 @@
 
 	<body>
 		<div id="info">
-			<a href="https://threejs.org" target="_blank" rel="noopener">WebGL by three.js</a><br />
-			<a href="https://play.google.com/store/apps/details?id=com.ABC3Dz.LGG" target="_blank">Game by Unreal Engie - LoogGlomGlom </a><br />
+			<a href="https://play.google.com/store/apps/details?id=com.ABC3Dz.LGG" target="_blank">LoogGlomGlom</a><br />
+			Sorry, reload once change model
 		</div>
-
 		<script type="module">
-			import * as THREE from 'https://threejs.org/build/three.module.js';
-
-			import { OrbitControls } from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
-			import { GLTFLoader } from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js';
-			import { GUI } from 'https://threejs.org/examples/jsm/libs/dat.gui.module.js';
-
-			let container, clock, gui, mixer, actions, activeAction, previousAction;
+			// import * as THREE from 'https://threejs.org/build/three.module.js';
+			// import { OrbitControls } from 'https://threejs.org/examples/jsm/controls/OrbitControls.js';
+			// import { GLTFLoader } from 'https://threejs.org/examples/jsm/loaders/GLTFLoader.js';
+			// import { GUI } from 'https://threejs.org/examples/jsm/libs/dat.gui.module.js'; 
+			import * as THREE from '../../build/three.module.js';
+			import { OrbitControls } from '../../examples/jsm/controls/OrbitControls.js';
+			import { GLTFLoader } from '../../examples/jsm/loaders/GLTFLoader.js';
+			import { GUI } from '../../examples/jsm/libs/dat.gui.module.js'; 
+		
+			let container, clock, gui, mixer, actions ;
 			let camera, scene, renderer, model, face;
 
 			gui = new GUI();
 			var parameters = 
 			{
-				c: "Zeroface.glb",
+				c: "select one",
 				v: false
 			};
 			let gltfAnim, gltfCha;
@@ -71,23 +73,7 @@
 				scene.add( grid );
 
 				// model
-
-				// const loader = new GLTFLoader();
-				// loader.load( './models/Argo01.glb', function ( gltf ) {
-
-				// 	model = gltf.scene;
-				// 	scene.add( model );
-
-				// 	// createGUI( model, gltf.animations );
-				// 	// console.log(model);
-
-				// }, undefined, function ( e ) {
-
-				// 	console.error( e );
-
-				// } );
-
-				let modelName = [ 'Argo01.glb', "Yinglek.glb", "Oni01.glb", "Dada01.glb","Reload" ];
+				let modelName = [ "select one", "hr_Zeroface.glb","hr_Argo.glb", "hr_Yinglek.glb", "hr_Oni.glb", "mt_Dada.glb","mt_Jook.glb","mt_Kooku.glb","mt_Manis.glb","Reload" ];
 				gltfCha = gui.add( parameters, 'c' , modelName).name('Model List').listen();
 				gltfCha.onChange(function(value){   
 						console.log(scene.children.length)
@@ -95,7 +81,8 @@
 						if(value=="Reload"){location.reload()}
 						else{
 						const loader = new GLTFLoader();
-						loader.load( 'models/'+value, function ( gltf ) {
+						
+						loader.load( './models/'+value, function ( gltf ) {
 							model = gltf.scene;
 							const morphMeshes = [];
 							gltf.scene.traverse( function ( node ) {
@@ -165,7 +152,8 @@
 
 					expressionFolder.add( morphMeshes[0].morphTargetInfluences, i, -1, 1, 0.01 ).name( expressions[ i ] );
 
-				}				
+				}	
+				expressionFolder.open();			
 			}
 
 			function onWindowResize() {
